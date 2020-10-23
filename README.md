@@ -111,6 +111,15 @@ You can supply this value one of three ways:
 
 - `files: '["input1", "input2"]'`: A list of file or directory arguments; equivalent to calling `vale input1 input2`.
 
+### `onlyAnnotateModifiedLines` (default: `false`)
+
+In case you want the action to only annotate lines that have been modified within a PR. This is helpful in case you're introducing vale to a repository that (still) has a lot of lints and don't want to overwhelm everyone with the sheer.
+
+```yaml
+with:
+  onlyAnnotateModifiedLines: true
+```
+
 #### Linting only modified files
 
 A common request is to only run Vale on *modified* files. We can make use of the `files` option and the [`file-changes-action`](https://github.com/marketplace/actions/file-changes-action) to do this:
