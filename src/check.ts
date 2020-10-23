@@ -39,7 +39,9 @@ interface CheckOptions {
 }
 
 const onlyAnnotateModifiedLines =
-  core.getInput('onlyAnnotateModifiedLines') === 'true';
+  core.getInput('onlyAnnotateModifiedLines') != 'false';
+
+console.log('echo1', core.getInput('onlyAnnotateModifiedLines'));
 
 /**
  * CheckRunner handles all communication with GitHub's Check API.
@@ -66,10 +68,12 @@ export class CheckRunner {
     const alerts = JSON.parse(output) as ValeJSON;
     for (const filename of Object.getOwnPropertyNames(alerts)) {
       for (const alert of alerts[filename]) {
+        console.log('echo2', onlyAnnotateModifiedLines, filename, alert.Line);
         if (
           onlyAnnotateModifiedLines &&
           !wasLineTouchedInPR(filename, alert.Line)
         ) {
+          console.log(`skipping ${filename}, ${alert.Line}`);
           continue;
         }
         switch (alert.Severity) {
